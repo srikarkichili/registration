@@ -225,17 +225,15 @@ class Graph:
 
     def has_vertex(self, label):
         """Check if a vertex is already in the graph"""
-        num_vertices = len(self.vertices)
-        for i in range(num_vertices):
-            if label == self.vertices[i].label:
+        for i in self.vertices:
+            if i.label == label:
                 return True
         return False
 
     def get_index(self, label):
         """Given a label get the index of a vertex"""
-        num_vertices = len(self.vertices)
-        for i in range(num_vertices):
-            if label == self.vertices[i].label:
+        for i in range(len(self.vertices)):
+            if self.vertices[i].label == label:
                 return i
         return -1
 
@@ -243,12 +241,10 @@ class Graph:
         """Add a Vertex with a given label to the graph"""
         if self.has_vertex(label):
             return
-
-        # add vertex to the list of vertices
         self.vertices.append(Vertex(label))
         for i in self.adjacency_matrix:
             i.append(0)
-        self.adjacency_matrix.append([0] * len (self.vertices))
+        self.adjacency_matrix.append([0] * len(self.vertices))
 
     def add_edge(self, start, finish):
         """Add unweighted directed edge to graph"""
@@ -270,12 +266,11 @@ class Graph:
         def helper(y):
             go[y] = True
             x[y] = True
-            vertexs = self.get_adjacent_vertices(y)
-            for next in vertexs:
-                if not go[next]:
-                    if helper(next):
+            for i in self.get_adjacent_vertices(y):
+                if not go[i]:
+                    if helper(i):
                         return True
-                elif x[next]:
+                elif x[i]:
                     return True
             x[y] = False
             return False
